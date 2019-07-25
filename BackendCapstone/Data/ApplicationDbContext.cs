@@ -9,7 +9,10 @@ namespace BackendCapstone.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options){ }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options) { }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<UserType> UserType { get; set; }
     }
 }
