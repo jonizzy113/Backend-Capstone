@@ -16,7 +16,11 @@ namespace BackendCapstone.Models
         [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+        [Required]
         public string Address { get; set; }
+        [Required]
+        public int UserTypeId { get; set; }
+        public UserType UserType { get; set; }
 
         [NotMapped]
         [Display(Name = "User Name")]

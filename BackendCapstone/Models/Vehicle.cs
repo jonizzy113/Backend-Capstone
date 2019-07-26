@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,15 +8,21 @@ namespace BackendCapstone.Models
 {
     public class Vehicle
     {
+        [Key]
         public int VehicleId { get; set; }
+        [Required]
         public string Make { get; set; }
+        [Required]
         public string Model { get; set; }
+        [Required]
         public double Mileage { get; set; }
+        [Required]
         public double BrokerPrice { get; set; }
+
         public double AddedCost { get; set; }
 
         public ApplicationUser Broker { get; set; }
-
+        [Required]
         public string BrokerId { get; set; }
 
         public ApplicationUser Salesman { get; set; }
