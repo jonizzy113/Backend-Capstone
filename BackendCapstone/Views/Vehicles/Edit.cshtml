@@ -1,0 +1,74 @@
+﻿@model BackendCapstone.Models.Vehicle
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Vehicle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VehicleId" />
+            <div class="form-group">
+                <label asp-for="Make" class="control-label"></label>
+                <input asp-for="Make" class="form-control" />
+                <span asp-validation-for="Make" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model" class="control-label"></label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mileage" class="control-label"></label>
+                <input asp-for="Mileage" class="form-control" />
+                <span asp-validation-for="Mileage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrokerPrice" class="control-label"></label>
+                <input asp-for="BrokerPrice" class="form-control" />
+                <span asp-validation-for="BrokerPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AddedCost" class="control-label"></label>
+                <input asp-for="AddedCost" class="form-control" />
+                <span asp-validation-for="AddedCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrokerId" class="control-label"></label>
+                <select asp-for="BrokerId" class="form-control" asp-items="ViewBag.BrokerId"></select>
+                <span asp-validation-for="BrokerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SalesmanId" class="control-label"></label>
+                <select asp-for="SalesmanId" class="form-control" asp-items="ViewBag.SalesmanId"></select>
+                <span asp-validation-for="SalesmanId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoldPrice" class="control-label"></label>
+                <input asp-for="SoldPrice" class="form-control" />
+                <span asp-validation-for="SoldPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
