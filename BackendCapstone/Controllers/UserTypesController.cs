@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BackendCapstone.Data;
 using BackendCapstone.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BackendCapstone.Controllers
 {
     public class UserTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserTypesController(ApplicationDbContext context)
+
+        public UserTypesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: UserTypes

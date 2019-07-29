@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using BackendCapstone.Data;
 using BackendCapstone.Models;
 using BackendCapstone.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace BackendCapstone.Controllers
 {
     public class VehiclesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public VehiclesController(ApplicationDbContext context)
+        public VehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Vehicles
