@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BackendCapstone.Migrations
 {
-    public partial class first : Migration
+    public partial class nullable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -205,8 +205,8 @@ namespace BackendCapstone.Migrations
                     AddedCost = table.Column<double>(nullable: false),
                     BrokerId = table.Column<string>(nullable: false),
                     SalesmanId = table.Column<string>(nullable: true),
-                    CustomerId = table.Column<int>(nullable: false),
-                    SoldPrice = table.Column<double>(nullable: false)
+                    CustomerId = table.Column<int>(nullable: true),
+                    SoldPrice = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -222,7 +222,7 @@ namespace BackendCapstone.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Vehicles_AspNetUsers_SalesmanId",
                         column: x => x.SalesmanId,
@@ -253,7 +253,7 @@ namespace BackendCapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserTypeId" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "123 Infinity Way", "7b197577-eb11-4e70-a5cd-29855fe78839", "jon@jon.com", true, "Jonathan", "Schaffer", false, null, "JON@JON.COM", "JON@JON.COM", "AQAAAAEAACcQAAAAEF4ZzXfEq4sk3kyW/Jjgyt63Axqbt7xqYclafDHxdZwdsW/43530lvJFa+zrN8mTtw==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "jon@jon.com", 1 });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "123 Infinity Way", "d18cff8d-8700-41d3-99f4-e1af9a20d8bd", "jon@jon.com", true, "Jonathan", "Schaffer", false, null, "JON@JON.COM", "JON@JON.COM", "AQAAAAEAACcQAAAAEBKTJ3iYzhLTeozg8IBZKWjnlH5yJtvr4qiLLLlxqSOuMgi21D4oN1IDzn+QX0mgWQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "jon@jon.com", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

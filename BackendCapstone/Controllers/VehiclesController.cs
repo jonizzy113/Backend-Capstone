@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BackendCapstone.Data;
 using BackendCapstone.Models;
+using BackendCapstone.Models.ViewModels;
 
 namespace BackendCapstone.Controllers
 {
@@ -50,29 +51,38 @@ namespace BackendCapstone.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            ViewData["BrokerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "Address");
-            ViewData["SalesmanId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
-            return View();
+            var viewModel = new VehicleCreateViewModel
+            {
+                Brokers = _context.ApplicationUsers.ToList()
+            };
+            List<ApplicationUser> brokers = GetAllBrokers();
+            viewModel.Brokers = brokers;
+            return View(viewModel);
+            //var applicationDbContext = _context.ApplicationUsers
+            //    .Include(u => u.UserType)
+            //    .Where(u => u.UserType.Type == "Broker").ToListAsync();
+            //ViewData["BrokerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
+            //return View();
         }
 
         // POST: Vehicles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VehicleId,Make,Model,Mileage,BrokerPrice,AddedCost,BrokerId,SalesmanId,CustomerId,SoldPrice")] Vehicle vehicle)
+        public async Task<IActionResult> Create( VehicleCreateViewModel viewModel)
         {
+            ModelState.Remove("Vehicle.Customer");
+            ModelState.Remove("Vehicle.Salesman");
+            ModelState.Remove("Vehicle.Broker");
             if (ModelState.IsValid)
             {
+                var vehicle = viewModel.Vehicle;
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrokerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", vehicle.BrokerId);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "Address", vehicle.CustomerId);
-            ViewData["SalesmanId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", vehicle.SalesmanId);
-            return View(vehicle);
+
+            viewModel.Brokers = await _context.ApplicationUsers.ToListAsync();
+            return View(viewModel);
         }
 
         // GET: Vehicles/Edit/5
@@ -167,6 +177,13 @@ namespace BackendCapstone.Controllers
         private bool VehicleExists(int id)
         {
             return _context.Vehicles.Any(e => e.VehicleId == id);
+        }
+        private List<ApplicationUser> GetAllBrokers()
+        {
+            var applicationUsers =_context.ApplicationUsers
+                .Include(u => u.UserType)
+                .Where(u => u.UserType.Type == "Broker").ToList();
+            return applicationUsers;
         }
     }
 }
