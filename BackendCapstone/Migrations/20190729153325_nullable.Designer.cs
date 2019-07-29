@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190726154941_first")]
-    partial class first
+    [Migration("20190729153325_nullable")]
+    partial class nullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,7 +90,7 @@ namespace BackendCapstone.Migrations
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
                             Address = "123 Infinity Way",
-                            ConcurrencyStamp = "7b197577-eb11-4e70-a5cd-29855fe78839",
+                            ConcurrencyStamp = "d18cff8d-8700-41d3-99f4-e1af9a20d8bd",
                             Email = "jon@jon.com",
                             EmailConfirmed = true,
                             FirstName = "Jonathan",
@@ -98,7 +98,7 @@ namespace BackendCapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JON@JON.COM",
                             NormalizedUserName = "JON@JON.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF4ZzXfEq4sk3kyW/Jjgyt63Axqbt7xqYclafDHxdZwdsW/43530lvJFa+zrN8mTtw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBKTJ3iYzhLTeozg8IBZKWjnlH5yJtvr4qiLLLlxqSOuMgi21D4oN1IDzn+QX0mgWQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -191,7 +191,7 @@ namespace BackendCapstone.Migrations
 
                     b.Property<double>("BrokerPrice");
 
-                    b.Property<int>("CustomerId");
+                    b.Property<int?>("CustomerId");
 
                     b.Property<string>("Make")
                         .IsRequired();
@@ -203,7 +203,7 @@ namespace BackendCapstone.Migrations
 
                     b.Property<string>("SalesmanId");
 
-                    b.Property<double>("SoldPrice");
+                    b.Property<double?>("SoldPrice");
 
                     b.HasKey("VehicleId");
 
@@ -347,8 +347,7 @@ namespace BackendCapstone.Migrations
 
                     b.HasOne("BackendCapstone.Models.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("BackendCapstone.Models.ApplicationUser", "Salesman")
                         .WithMany()

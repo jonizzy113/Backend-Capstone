@@ -20,7 +20,7 @@ namespace BackendCapstone.Models
         public double BrokerPrice { get; set; }
 
         public double AddedCost { get; set; }
-
+        [Required]
         public ApplicationUser Broker { get; set; }
         [Required]
         public string BrokerId { get; set; }
@@ -29,9 +29,9 @@ namespace BackendCapstone.Models
         public string SalesmanId { get; set; }
 
         public Customer Customer { get; set; }
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
-        public double SoldPrice { get; set; }
+        public double? SoldPrice { get; set; }
 
   
 

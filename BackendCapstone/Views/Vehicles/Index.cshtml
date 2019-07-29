@@ -25,19 +25,7 @@
                 @Html.DisplayNameFor(model => model.BrokerPrice)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AddedCost)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Broker)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salesman)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoldPrice)
             </th>
             <th></th>
         </tr>
@@ -58,20 +46,9 @@
                 @Html.DisplayFor(modelItem => item.BrokerPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AddedCost)
+                @Html.DisplayFor(modelItem => item.Broker.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Broker.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Salesman.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoldPrice)
-            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
