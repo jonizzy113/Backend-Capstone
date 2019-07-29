@@ -19,8 +19,9 @@ namespace BackendCapstone.Models
         [Required]
         public double Mileage { get; set; }
         [Required]
+        [Display(Name ="Broker Price")]
         public double BrokerPrice { get; set; }
-
+        [Display(Name ="Added Costs")]
         public double AddedCost { get; set; }
         [Required]
         public ApplicationUser Broker { get; set; }
