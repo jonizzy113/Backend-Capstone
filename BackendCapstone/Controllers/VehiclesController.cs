@@ -23,6 +23,8 @@ namespace BackendCapstone.Controllers
             _userManager = userManager;
         }
 
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
@@ -30,43 +32,56 @@ namespace BackendCapstone.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Vehicles/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> MyIndex()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicle = await _context.Vehicles
+            var currentUser = await GetCurrentUserAsync();
+            var applicationDbContext = _context.Vehicles.Where(v => v.BrokerId == currentUser.Id)
                 .Include(v => v.Broker)
                 .Include(v => v.Customer)
-                .Include(v => v.Salesman)
-                .FirstOrDefaultAsync(m => m.VehicleId == id);
-            if (vehicle == null)
+                .Include(v => v.Salesman);
+            return View(await applicationDbContext.ToListAsync());
+
+
+        }
+
+            // GET: Vehicles/Details/5
+            public async Task<IActionResult> Details(int? id)
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var vehicle = await _context.Vehicles
+                    .Include(v => v.Broker)
+                    .Include(v => v.Customer)
+                    .Include(v => v.Salesman)
+                    .FirstOrDefaultAsync(m => m.VehicleId == id);
+                if (vehicle == null)
+                {
+                    return NotFound();
+                }
+
+                return View(vehicle);
             }
 
-            return View(vehicle);
-        }
-
-        // GET: Vehicles/Create
-        public IActionResult Create()
-        {
-            var viewModel = new VehicleCreateViewModel
+            // GET: Vehicles/Create
+            public IActionResult Create()
             {
-                Brokers = _context.ApplicationUsers.ToList()
-            };
-            List<ApplicationUser> brokers = GetAllBrokers();
-            viewModel.Brokers = brokers;
-            return View(viewModel);
-            //var applicationDbContext = _context.ApplicationUsers
-            //    .Include(u => u.UserType)
-            //    .Where(u => u.UserType.Type == "Broker").ToListAsync();
-            //ViewData["BrokerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
-            //return View();
-        }
+                var viewModel = new VehicleCreateViewModel
+                {
+                    Brokers = _context.ApplicationUsers.ToList()
+                };
+                List<ApplicationUser> brokers = GetAllBrokers();
+                viewModel.Brokers = brokers;
+                return View(viewModel);
+                //var applicationDbContext = _context.ApplicationUsers
+                //    .Include(u => u.UserType)
+                //    .Where(u => u.UserType.Type == "Broker").ToListAsync();
+                //ViewData["BrokerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
+                //return View();
+            }
+        
 
         // POST: Vehicles/Create
         [HttpPost]
