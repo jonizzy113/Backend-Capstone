@@ -46,10 +46,6 @@ namespace BackendCapstone.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-
-            //public List<UserType> UserTypes { get; set; }
-            //public List<SelectListItem> UserOption =>
-            //UserTypes.Select(u => new SelectListItem(u.Type, u.Id.ToString())).ToList();
             [Required]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }

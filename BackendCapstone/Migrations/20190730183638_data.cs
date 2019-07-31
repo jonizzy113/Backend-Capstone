@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BackendCapstone.Migrations
 {
-    public partial class nullable : Migration
+    public partial class data : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -199,6 +199,7 @@ namespace BackendCapstone.Migrations
                     VehicleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Make = table.Column<string>(nullable: false),
+                    Year = table.Column<int>(nullable: false),
                     Model = table.Column<string>(nullable: false),
                     Mileage = table.Column<double>(nullable: false),
                     BrokerPrice = table.Column<double>(nullable: false),
@@ -253,7 +254,7 @@ namespace BackendCapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserTypeId" },
-                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "123 Infinity Way", "d18cff8d-8700-41d3-99f4-e1af9a20d8bd", "jon@jon.com", true, "Jonathan", "Schaffer", false, null, "JON@JON.COM", "JON@JON.COM", "AQAAAAEAACcQAAAAEBKTJ3iYzhLTeozg8IBZKWjnlH5yJtvr4qiLLLlxqSOuMgi21D4oN1IDzn+QX0mgWQ==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "jon@jon.com", 1 });
+                values: new object[] { "00000000-ffff-ffff-ffff-ffffffffffff", 0, "123 Infinity Way", "768d4b2c-10b2-4681-88b3-1c1d4d68c5fc", "jon@jon.com", true, "Jonathan", "Schaffer", false, null, "JON@JON.COM", "JON@JON.COM", "AQAAAAEAACcQAAAAEK8wnNf2Uejs76SyEqDbbzQRZ7YdrC7gJVYwo9agoaFHrUWCbbbpP1nPfbhPzxJaNA==", null, false, "7f434309-a4d9-48e9-9ebb-8803db794577", false, "jon@jon.com", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

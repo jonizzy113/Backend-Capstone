@@ -9,9 +9,11 @@ using BackendCapstone.Data;
 using BackendCapstone.Models;
 using BackendCapstone.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackendCapstone.Controllers
 {
+    [Authorize]
     public class VehiclesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -28,8 +30,12 @@ namespace BackendCapstone.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Vehicles.Include(v => v.Broker).Include(v => v.Customer).Include(v => v.Salesman);
-            return View(await applicationDbContext.ToListAsync());
+            var viewModel = new VehicleIndexViewModel();
+            var user = await GetCurrentUserAsync();
+            List<Vehicle> vehicles = GetVehicles();
+            viewModel.Vehicles = vehicles;
+            viewModel.IsOffice = user.UserTypeId == 1;
+            return View(viewModel);
         }
 
         public async Task<IActionResult> MyIndex()
@@ -75,11 +81,6 @@ namespace BackendCapstone.Controllers
                 List<ApplicationUser> brokers = GetAllBrokers();
                 viewModel.Brokers = brokers;
                 return View(viewModel);
-                //var applicationDbContext = _context.ApplicationUsers
-                //    .Include(u => u.UserType)
-                //    .Where(u => u.UserType.Type == "Broker").ToListAsync();
-                //ViewData["BrokerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
-                //return View();
             }
         
 
@@ -202,6 +203,15 @@ namespace BackendCapstone.Controllers
                 .Include(u => u.UserType)
                 .Where(u => u.UserType.Type == "Broker").ToList();
             return applicationUsers;
+        }
+        private List<Vehicle> GetVehicles()
+        {
+            var allVehicles = _context.Vehicles
+                .Include(v => v.Broker)
+                .Include(v => v.Customer)
+                .Include(v => v.Salesman).ToList();
+
+            return allVehicles;
         }
     }
 }
