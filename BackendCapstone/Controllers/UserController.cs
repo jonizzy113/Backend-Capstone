@@ -9,6 +9,7 @@ using BackendCapstone.Data;
 using BackendCapstone.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using BackendCapstone.Models.ViewModels;
 
 namespace BackendCapstone.Controllers
 {
@@ -17,6 +18,7 @@ namespace BackendCapstone.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
 
         public UserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
@@ -30,19 +32,25 @@ namespace BackendCapstone.Controllers
             return View(await _context.UserType.ToListAsync());
         }
 
-        public   async Task<IActionResult> GetSalesman()
+        public async Task<IActionResult> GetSalesman()
         {
-            var applicationUsers = await  _context.ApplicationUsers
-                .Include(u => u.UserType)
-                .Where(u => u.UserType.Type == "Salesman").ToListAsync();
-            return View(applicationUsers);
+            var viewModel = new SalesmanIndexViewModel();
+            var user = await GetCurrentUserAsync();
+            List<ApplicationUser> salesman = GetAllSalesman();
+            viewModel.Salesman = salesman;
+            viewModel.IsOffice = user.UserTypeId == 1;
+
+            return View(viewModel);
         }
         public async Task<IActionResult> GetBroker()
         {
-            var applicationUsers = await _context.ApplicationUsers
-                .Include(u => u.UserType)
-                .Where(u => u.UserType.Type == "Broker").ToListAsync();
-            return View(applicationUsers);
+            var viewModel = new BrokerIndexViewModel();
+            var user = await GetCurrentUserAsync();
+            List<ApplicationUser> broker = GetAllBrokers();
+            viewModel.Broker = broker;
+            viewModel.IsOffice = user.UserTypeId == 1;
+
+            return View(viewModel);
         }
 
 
@@ -169,6 +177,20 @@ namespace BackendCapstone.Controllers
         private bool UserTypeExists(int id)
         {
             return _context.UserType.Any(e => e.Id == id);
+        }
+        private List<ApplicationUser> GetAllSalesman()
+        {
+            var applicationUsers = _context.ApplicationUsers
+                .Include(u => u.UserType)
+                .Where(u => u.UserType.Type == "Salesman").ToList();
+            return applicationUsers;
+        }
+        private List<ApplicationUser> GetAllBrokers()
+        {
+            var applicationUsers = _context.ApplicationUsers
+                .Include(u => u.UserType)
+                .Where(u => u.UserType.Type == "Broker").ToList();
+            return applicationUsers;
         }
     }
 }
