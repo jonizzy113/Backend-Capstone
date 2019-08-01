@@ -50,44 +50,44 @@ namespace BackendCapstone.Controllers
 
         }
 
-            // GET: Vehicles/Details/5
-            public async Task<IActionResult> Details(int? id)
+        // GET: Vehicles/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                var vehicle = await _context.Vehicles
-                    .Include(v => v.Broker)
-                    .Include(v => v.Customer)
-                    .Include(v => v.Salesman)
-                    .FirstOrDefaultAsync(m => m.VehicleId == id);
-                if (vehicle == null)
-                {
-                    return NotFound();
-                }
-
-                return View(vehicle);
+                return NotFound();
             }
 
-            // GET: Vehicles/Create
-            public IActionResult Create()
+            var vehicle = await _context.Vehicles
+                .Include(v => v.Broker)
+                .Include(v => v.Customer)
+                .Include(v => v.Salesman)
+                .FirstOrDefaultAsync(m => m.VehicleId == id);
+            if (vehicle == null)
             {
-                var viewModel = new VehicleCreateViewModel
-                {
-                    Brokers = _context.ApplicationUsers.ToList()
-                };
-                List<ApplicationUser> brokers = GetAllBrokers();
-                viewModel.Brokers = brokers;
-                return View(viewModel);
+                return NotFound();
             }
-        
+
+            return View(vehicle);
+        }
+
+        // GET: Vehicles/Create
+        public IActionResult Create()
+        {
+            var viewModel = new VehicleCreateViewModel
+            {
+                Brokers = _context.ApplicationUsers.ToList()
+            };
+            List<ApplicationUser> brokers = GetAllBrokers();
+            viewModel.Brokers = brokers;
+            return View(viewModel);
+        }
+
 
         // POST: Vehicles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( VehicleCreateViewModel viewModel)
+        public async Task<IActionResult> Create(VehicleCreateViewModel viewModel)
         {
             ModelState.Remove("Vehicle.Customer");
             ModelState.Remove("Vehicle.Salesman");
@@ -105,22 +105,35 @@ namespace BackendCapstone.Controllers
         }
 
         // GET: Vehicles/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var vehicle = await _context.Vehicles.FindAsync(id);
-            if (vehicle == null)
+            var vehicle = _context.Vehicles.Find(id);
+            if(vehicle == null)
             {
                 return NotFound();
             }
-            ViewData["BrokerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", vehicle.BrokerId);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "Address", vehicle.CustomerId);
-            ViewData["SalesmanId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", vehicle.SalesmanId);
-            return View(vehicle);
+            var viewModel = new VehicleEditViewModel()
+            {
+                Vehicle = vehicle,
+                Broker = _context.ApplicationUsers.ToList(),
+                Customer = _context.Customers.ToList(),
+                Salesman = _context.ApplicationUsers.ToList()
+            };
+            List<ApplicationUser> salesman = GetAllSalesman();
+            List<ApplicationUser> brokers = GetAllBrokers();
+            List<Customer> customers = GetAllCustomers();
+            viewModel.Customer = customers;
+            viewModel.Broker = brokers;
+            viewModel.Salesman = salesman;
+            if(viewModel == null)
+            {
+                return NotFound();
+            }
+            return View(viewModel);
         }
 
         // POST: Vehicles/Edit/5
@@ -128,9 +141,9 @@ namespace BackendCapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleId,Make,Model,Mileage,BrokerPrice,AddedCost,BrokerId,SalesmanId,CustomerId,SoldPrice")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id,  VehicleEditViewModel viewModel)
         {
-            if (id != vehicle.VehicleId)
+            if (id != viewModel.Vehicle.VehicleId)
             {
                 return NotFound();
             }
@@ -139,12 +152,12 @@ namespace BackendCapstone.Controllers
             {
                 try
                 {
-                    _context.Update(vehicle);
+                    _context.Update(viewModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleExists(vehicle.VehicleId))
+                    if (!VehicleExists(viewModel.Vehicle.VehicleId))
                     {
                         return NotFound();
                     }
@@ -155,10 +168,7 @@ namespace BackendCapstone.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrokerId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", vehicle.BrokerId);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "Address", vehicle.CustomerId);
-            ViewData["SalesmanId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", vehicle.SalesmanId);
-            return View(vehicle);
+            return View(viewModel);
         }
 
         // GET: Vehicles/Delete/5
@@ -199,9 +209,16 @@ namespace BackendCapstone.Controllers
         }
         private List<ApplicationUser> GetAllBrokers()
         {
-            var applicationUsers =_context.ApplicationUsers
+            var applicationUsers = _context.ApplicationUsers
                 .Include(u => u.UserType)
                 .Where(u => u.UserType.Type == "Broker").ToList();
+            return applicationUsers;
+        }
+        private List<ApplicationUser> GetAllSalesman()
+        {
+            var applicationUsers = _context.ApplicationUsers
+                .Include(u => u.UserType)
+                .Where(u => u.UserType.Type == "Salesman").ToList();
             return applicationUsers;
         }
         private List<Vehicle> GetVehicles()
@@ -212,6 +229,11 @@ namespace BackendCapstone.Controllers
                 .Include(v => v.Salesman).ToList();
 
             return allVehicles;
+        }
+        private List<Customer> GetAllCustomers()
+        {
+            var allCustomers = _context.Customers.ToList();
+            return allCustomers;
         }
     }
 }

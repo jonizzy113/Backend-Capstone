@@ -9,6 +9,7 @@ using BackendCapstone.Data;
 using BackendCapstone.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using BackendCapstone.Models.ViewModels;
 
 namespace BackendCapstone.Controllers
 {
@@ -17,7 +18,7 @@ namespace BackendCapstone.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -28,7 +29,12 @@ namespace BackendCapstone.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            var viewModel = new CustomerIndexViewModel();
+            var user = await GetCurrentUserAsync();
+            List<Customer> customer = GetAllCustomer();
+            viewModel.Customer = customer;
+            viewModel.IsOffice = user.UserTypeId == 1;
+            return View(viewModel);
         }
 
         // GET: Customers/Details/5
@@ -154,6 +160,12 @@ namespace BackendCapstone.Controllers
         private bool CustomerExists(int id)
         {
             return _context.Customers.Any(e => e.CustomerId == id);
+        }
+        private List<Customer> GetAllCustomer()
+        {
+            var applicationUsers = _context.Customers.ToList();
+
+            return applicationUsers;
         }
     }
 }

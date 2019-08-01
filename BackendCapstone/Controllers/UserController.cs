@@ -75,7 +75,7 @@ namespace BackendCapstone.Controllers
         // GET: User/Create
         public IActionResult Create()
         {
-            return View();
+            return NotFound();
         }
 
         // POST: User/Create
@@ -95,19 +95,19 @@ namespace BackendCapstone.Controllers
         }
 
         // GET: User/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> SalesmanEdit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var userType = await _context.UserType.FindAsync(id);
-            if (userType == null)
+            var user = await _context.ApplicationUsers.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(userType);
+            return View(user);
         }
 
         // POST: User/Edit/5
@@ -115,9 +115,9 @@ namespace BackendCapstone.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type")] UserType userType)
+        public async Task<IActionResult> SalesmanEdit(string id,  ApplicationUser applicationUser)
         {
-            if (id != userType.Id)
+            if (id != applicationUser.Id)
             {
                 return NotFound();
             }
@@ -126,12 +126,12 @@ namespace BackendCapstone.Controllers
             {
                 try
                 {
-                    _context.Update(userType);
+                    _context.Update(applicationUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserTypeExists(userType.Id))
+                    if (!UserExits(applicationUser.Id))
                     {
                         return NotFound();
                     }
@@ -142,7 +142,7 @@ namespace BackendCapstone.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(userType);
+            return View(applicationUser);
         }
 
         // GET: User/Delete/5
@@ -160,7 +160,7 @@ namespace BackendCapstone.Controllers
                 return NotFound();
             }
 
-            return View(userType);
+            return NotFound();
         }
 
         // POST: User/Delete/5
@@ -171,12 +171,12 @@ namespace BackendCapstone.Controllers
             var userType = await _context.UserType.FindAsync(id);
             _context.UserType.Remove(userType);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
 
-        private bool UserTypeExists(int id)
+        private bool UserExits(string id)
         {
-            return _context.UserType.Any(e => e.Id == id);
+            return _context.ApplicationUsers.Any(e => e.Id == id);
         }
         private List<ApplicationUser> GetAllSalesman()
         {

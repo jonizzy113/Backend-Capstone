@@ -44,13 +44,13 @@ namespace BackendCapstone.Controllers
                 return NotFound();
             }
 
-            return View(userType);
+            return NotFound();
         }
 
         // GET: UserTypes/Create
         public IActionResult Create()
         {
-            return View();
+            return NotFound();
         }
 
         // POST: UserTypes/Create
@@ -66,7 +66,7 @@ namespace BackendCapstone.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(userType);
+            return NotFound();
         }
 
         // GET: UserTypes/Edit/5
@@ -82,7 +82,7 @@ namespace BackendCapstone.Controllers
             {
                 return NotFound();
             }
-            return View(userType);
+            return NotFound();
         }
 
         // POST: UserTypes/Edit/5
@@ -135,7 +135,7 @@ namespace BackendCapstone.Controllers
                 return NotFound();
             }
 
-            return View(userType);
+            return NotFound();
         }
 
         // POST: UserTypes/Delete/5

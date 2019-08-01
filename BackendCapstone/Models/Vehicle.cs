@@ -21,19 +21,24 @@ namespace BackendCapstone.Models
         [Required]
         public double Mileage { get; set; }
         [Required]
-        [Display(Name ="Broker Price")]
+        [DisplayFormat(DataFormatString ="{0:C}")]
+        [Display(Name = "Broker Price")]
         public double BrokerPrice { get; set; }
-        [Display(Name ="Added Costs")]
+
+        [Display(Name = "Added Costs")]
         public double AddedCost { get; set; }
         [Required]
         public ApplicationUser Broker { get; set; }
         [Required]
+        [Display(Name ="Broker")]
         public string BrokerId { get; set; }
 
         public ApplicationUser Salesman { get; set; }
+        [Display(Name ="Customer")]
         public string SalesmanId { get; set; }
 
         public Customer Customer { get; set; }
+        [Display(Name ="Customer")]
         public int? CustomerId { get; set; }
 
         public double? SoldPrice { get; set; }
