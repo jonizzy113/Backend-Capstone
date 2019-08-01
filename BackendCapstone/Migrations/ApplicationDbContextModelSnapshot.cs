@@ -88,7 +88,7 @@ namespace BackendCapstone.Migrations
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
                             Address = "123 Infinity Way",
-                            ConcurrencyStamp = "d18cff8d-8700-41d3-99f4-e1af9a20d8bd",
+                            ConcurrencyStamp = "768d4b2c-10b2-4681-88b3-1c1d4d68c5fc",
                             Email = "jon@jon.com",
                             EmailConfirmed = true,
                             FirstName = "Jonathan",
@@ -96,7 +96,7 @@ namespace BackendCapstone.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "JON@JON.COM",
                             NormalizedUserName = "JON@JON.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBKTJ3iYzhLTeozg8IBZKWjnlH5yJtvr4qiLLLlxqSOuMgi21D4oN1IDzn+QX0mgWQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK8wnNf2Uejs76SyEqDbbzQRZ7YdrC7gJVYwo9agoaFHrUWCbbbpP1nPfbhPzxJaNA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             TwoFactorEnabled = false,
@@ -202,6 +202,8 @@ namespace BackendCapstone.Migrations
                     b.Property<string>("SalesmanId");
 
                     b.Property<double?>("SoldPrice");
+
+                    b.Property<int>("Year");
 
                     b.HasKey("VehicleId");
 

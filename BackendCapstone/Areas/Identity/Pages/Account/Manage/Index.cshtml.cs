@@ -43,6 +43,10 @@ namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            [Required]
+            public string FirstName { get; set; }
+            [Required]
+            public string LastName { get; set; }
 
             [Phone]
             [Display(Name = "Phone number")]
@@ -59,6 +63,8 @@ namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
 
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
@@ -66,7 +72,9 @@ namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);

@@ -5,14 +5,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BackendCapstone.Models;
+using BackendCapstone.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackendCapstone.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
         public IActionResult Index()
         {
-            return View();
+            var applicationDbContext =  _context.Vehicles
+                .Include(v => v.Broker)
+                .Include(v => v.Customer)
+                .Include(v => v.Salesman)
+                .Take(5);
+            return View( applicationDbContext.ToList());
         }
 
         public IActionResult Privacy()

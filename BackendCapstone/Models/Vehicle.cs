@@ -15,6 +15,8 @@ namespace BackendCapstone.Models
         [Required]
         public string Make { get; set; }
         [Required]
+        public int Year { get; set; }
+        [Required]
         public string Model { get; set; }
         [Required]
         public double Mileage { get; set; }
