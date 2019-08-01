@@ -226,7 +226,9 @@ namespace BackendCapstone.Controllers
             var allVehicles = _context.Vehicles
                 .Include(v => v.Broker)
                 .Include(v => v.Customer)
-                .Include(v => v.Salesman).ToList();
+                .Include(v => v.Salesman)
+                .Where(v => v.CustomerId == null)
+                .ToList();
 
             return allVehicles;
         }
