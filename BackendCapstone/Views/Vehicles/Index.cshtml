@@ -9,6 +9,29 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicles[0].Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicles[0].Make)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicles[0].Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicles[0].Mileage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicles[0].BrokerPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vehicles[0].AddedCost)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
 
     <tbody>
         @foreach (var item in Model.Vehicles)
