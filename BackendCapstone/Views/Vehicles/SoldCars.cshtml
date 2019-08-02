@@ -1,0 +1,84 @@
+﻿@model IEnumerable<BackendCapstone.Models.Vehicle>
+
+@{
+    ViewData["Title"] = "SoldCars";
+}
+
+<h1>Sold Vehicles</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Make)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mileage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BrokerPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddedCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Broker)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salesman)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoldPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Make)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mileage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrokerPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddedCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Broker.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salesman.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoldPrice)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

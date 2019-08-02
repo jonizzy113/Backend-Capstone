@@ -14,6 +14,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Vehicle.VehicleId" />
             <div class="form-group">
+                <label asp-for="Vehicle.Year" class="control-label"></label>
+                <input asp-for="Vehicle.Year" class="form-control" />
+                <span asp-validation-for="Vehicle.Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Vehicle.Make" class="control-label"></label>
                 <input asp-for="Vehicle.Make" class="form-control" />
                 <span asp-validation-for="Vehicle.Make" class="text-danger"></span>
@@ -43,7 +48,8 @@
                 <select asp-for="Vehicle.BrokerId" class="form-control" asp-items="@Model.BrokerList"></select>
                 <span asp-validation-for="Vehicle.BrokerId" class="text-danger"></span>
             </div>
-            <div class="form-group">Saleman
+            <div class="form-group">
+                Saleman
                 <select asp-for="Vehicle.SalesmanId" class="form-control" asp-items="@Model.SalesmanList"></select>
                 <span asp-validation-for="Vehicle.SalesmanId" class="text-danger"></span>
             </div>

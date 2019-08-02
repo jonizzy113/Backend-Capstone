@@ -50,6 +50,15 @@ namespace BackendCapstone.Controllers
 
         }
 
+        public async Task<IActionResult> SoldCars()
+        {
+            var applicationDbContext  = _context.Vehicles.Where(v => v.CustomerId != null)
+                .Include(v => v.Broker)
+                .Include(v => v.Customer)
+                .Include(v => v.Salesman);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -137,13 +146,15 @@ namespace BackendCapstone.Controllers
         }
 
         // POST: Vehicles/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,  VehicleEditViewModel viewModel)
         {
-            if (id != viewModel.Vehicle.VehicleId)
+            ModelState.Remove("Vehicle.Customer");
+            ModelState.Remove("Vehicle.Salesman");
+            ModelState.Remove("Vehicle.Broker");
+            var vehicle = viewModel.Vehicle;
+            if (id != vehicle.VehicleId)
             {
                 return NotFound();
             }
@@ -152,12 +163,12 @@ namespace BackendCapstone.Controllers
             {
                 try
                 {
-                    _context.Update(viewModel);
+                    _context.Update(vehicle);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleExists(viewModel.Vehicle.VehicleId))
+                    if (!VehicleExists(vehicle.VehicleId))
                     {
                         return NotFound();
                     }
@@ -168,6 +179,9 @@ namespace BackendCapstone.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            viewModel.Salesman = GetAllSalesman();
+            viewModel.Broker = GetAllBrokers();
+            viewModel.Customer = GetAllCustomers();
             return View(viewModel);
         }
 
