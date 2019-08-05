@@ -1,0 +1,64 @@
+﻿@model BackendCapstone.Models.ViewModels.VehicleEditViewModel
+
+@{
+    ViewData["Title"] = "EditInventory";
+}
+
+<h1>Edit</h1>
+
+<h4>Vehicle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditInventory">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Vehicle.VehicleId" />
+            <div class="form-group">
+                <label asp-for="Vehicle.Year" class="control-label"></label>
+                <input asp-for="Vehicle.Year" class="form-control" />
+                <span asp-validation-for="Vehicle.Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicle.Make" class="control-label"></label>
+                <input asp-for="Vehicle.Make" class="form-control" />
+                <span asp-validation-for="Vehicle.Make" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicle.Model" class="control-label"></label>
+                <input asp-for="Vehicle.Model" class="form-control" />
+                <span asp-validation-for="Vehicle.Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicle.Mileage" class="control-label"></label>
+                <input asp-for="Vehicle.Mileage" class="form-control" />
+                <span asp-validation-for="Vehicle.Mileage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicle.BrokerPrice" class="control-label"></label>
+                <input asp-for="Vehicle.BrokerPrice" class="form-control" />
+                <span asp-validation-for="Vehicle.BrokerPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicle.AddedCost" class="control-label"></label>
+                <input asp-for="Vehicle.AddedCost" class="form-control" />
+                <span asp-validation-for="Vehicle.AddedCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vehicle.BrokerId" class="control-label"></label>
+                <select asp-for="Vehicle.BrokerId" class="form-control" asp-items="@Model.BrokerList"></select>
+                <span asp-validation-for="Vehicle.BrokerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -27,10 +27,6 @@ namespace BackendCapstone.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.UserType.ToListAsync());
-        }
 
         public async Task<IActionResult> GetSalesman()
         {
