@@ -19,6 +19,7 @@ namespace BackendCapstone.Models
         [Required]
         public string Model { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{0:N}")]
         public double Mileage { get; set; }
         [Required]
         [DisplayFormat(DataFormatString ="{0:C}")]
@@ -26,6 +27,7 @@ namespace BackendCapstone.Models
         public double BrokerPrice { get; set; }
 
         [Display(Name = "Added Costs")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public double AddedCost { get; set; }
         [Required]
         public ApplicationUser Broker { get; set; }
@@ -41,6 +43,8 @@ namespace BackendCapstone.Models
         [Display(Name ="Customer")]
         public int? CustomerId { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        [Display(Name ="Sold Price")]
         public double? SoldPrice { get; set; }
 
   

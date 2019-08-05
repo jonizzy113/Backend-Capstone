@@ -27,10 +27,6 @@ namespace BackendCapstone.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.UserType.ToListAsync());
-        }
 
         public async Task<IActionResult> GetSalesman()
         {
@@ -52,128 +48,6 @@ namespace BackendCapstone.Controllers
 
             return View(viewModel);
         }
-
-
-        // GET: User/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userType = await _context.UserType
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userType == null)
-            {
-                return NotFound();
-            }
-
-            return View(userType);
-        }
-
-        // GET: User/Create
-        public IActionResult Create()
-        {
-            return NotFound();
-        }
-
-        // POST: User/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type")] UserType userType)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(userType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userType);
-        }
-
-        // GET: User/Edit/5
-        public async Task<IActionResult> SalesmanEdit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.ApplicationUsers.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
-        }
-
-        // POST: User/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SalesmanEdit(string id,  ApplicationUser applicationUser)
-        {
-            if (id != applicationUser.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(applicationUser);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExits(applicationUser.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(applicationUser);
-        }
-
-        // GET: User/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userType = await _context.UserType
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userType == null)
-            {
-                return NotFound();
-            }
-
-            return NotFound();
-        }
-
-        // POST: User/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var userType = await _context.UserType.FindAsync(id);
-            _context.UserType.Remove(userType);
-            await _context.SaveChangesAsync();
-            return NotFound();
-        }
-
         private bool UserExits(string id)
         {
             return _context.ApplicationUsers.Any(e => e.Id == id);
