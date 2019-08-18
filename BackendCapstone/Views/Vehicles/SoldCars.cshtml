@@ -6,14 +6,14 @@
 
 <h1>Sold Vehicles</h1>
 
-<table class="table">
-    <thead>
+<table class="table table-hover table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Make)
+                @Html.DisplayNameFor(model => model.Year)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
+                @Html.DisplayNameFor(model => model.Make)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Model)
@@ -39,6 +39,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.SoldPrice)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Profit)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -46,10 +49,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Make)
+                @Html.DisplayFor(modelItem => item.Year)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Year)
+                @Html.DisplayFor(modelItem => item.Make)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Model)
@@ -76,7 +79,11 @@
                 @Html.DisplayFor(modelItem => item.SoldPrice)
             </td>
             <td>
-                <a asp-action="EditSoldVehicle" asp-route-id ="@item.VehicleId">Edit</a>
+                @Html.DisplayFor(modelItem => item.Profit)
+            </td>
+            <td>
+                <a  class="btn btn-secondary" asp-action="EditSoldVehicle" asp-route-id="@item.VehicleId">Edit</a>
+                
             </td>
         </tr>
 }

@@ -4,16 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Current Inventory</h1>
 @if (Model.IsOffice == true)
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a  class="btn btn-success" asp-action="Create">Create New</a>
     </p>
 
 }
-<table class="table">
-    <thead>
+<table class="table table-hover table-striped">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Vehicles[0].Year)
@@ -36,7 +36,6 @@
             <th></th>
         </tr>
     </thead>
-
     <tbody>
         @foreach (var item in Model.Vehicles)
         {
@@ -61,12 +60,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Broker.FullName)
                     </td>
+                    
                     <td>
-                    <td>
-                        <a asp-action="EditInventory" asp-route-id="@item.VehicleId">Edit</a>   |
-                        <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>  |
-                        <a asp-action="Edit" asp-route-id="@item.VehicleId">Sell Vehicle</a>
+                        <a class="btn btn-secondary" asp-action="EditInventory" asp-route-id="@item.VehicleId">Edit</a>  
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.VehicleId">Details</a> 
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>  
+                        <a class="btn btn-secondary"asp-action="Edit" asp-route-id="@item.VehicleId">Sell Vehicle</a>
                     </td>
                 </tr>
             }
@@ -94,6 +93,7 @@
                     <td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a>
+                       
                     </td>
                 </tr>
             }

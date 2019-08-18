@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using BackendCapstone.Data;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using BackendCapstone.Models;
@@ -9,11 +10,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -21,11 +24,13 @@ namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext context,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _context = context;
         }
 
         public string Username { get; set; }
@@ -51,6 +56,7 @@ namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public string Address { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -63,8 +69,9 @@ namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
 
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
-            var firstName = user.FirstName;
-            var lastName = user.LastName;
+            var FirstName = user.FirstName;
+            var LastName = user.LastName;
+            var address = user.Address;
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
@@ -73,8 +80,9 @@ namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
             {
                 Email = email,
                 PhoneNumber = phoneNumber,
-                FirstName = firstName,
-                LastName = lastName
+                FirstName = FirstName,
+                LastName =LastName,
+                Address = address
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -116,6 +124,24 @@ namespace BackendCapstone.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    user.FirstName = Input.FirstName;
+                    user.LastName = Input.LastName;
+                    user.Address = Input.Address;
+
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected rror occured setting User Info '{userId}");
+                }
+            }
+
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

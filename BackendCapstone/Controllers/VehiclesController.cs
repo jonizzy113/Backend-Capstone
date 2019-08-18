@@ -44,7 +44,8 @@ namespace BackendCapstone.Controllers
             var applicationDbContext = _context.Vehicles.Where(v => v.BrokerId == currentUser.Id)
                 .Include(v => v.Broker)
                 .Include(v => v.Customer)
-                .Include(v => v.Salesman);
+                .Include(v => v.Salesman)
+                .Where(v => v.CustomerId != null);
             return View(await applicationDbContext.ToListAsync());
 
 
