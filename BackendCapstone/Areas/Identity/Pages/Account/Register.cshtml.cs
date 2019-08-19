@@ -59,6 +59,7 @@ namespace BackendCapstone.Areas.Identity.Pages.Account
             [Required]
             public string Address { get; set; }
             [Required]
+            [Display(Name ="Phone Number")]
             public string PhoneNumber { get; set; }
 
             [Required]
@@ -99,6 +100,7 @@ namespace BackendCapstone.Areas.Identity.Pages.Account
                     Address = Input.Address,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
+                    PhoneNumber = Input.PhoneNumber,
                     UserTypeId = Input.UserTypeId
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);

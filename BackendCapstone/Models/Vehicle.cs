@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,6 +47,16 @@ namespace BackendCapstone.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         [Display(Name ="Sold Price")]
         public double? SoldPrice { get; set; }
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public double? Profit
+        {
+            get
+            {
+                return SoldPrice - AddedCost - BrokerPrice;
+            }
+        }
+
 
   
 

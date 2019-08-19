@@ -22,10 +22,11 @@ namespace BackendCapstone.Controllers
         }
         public IActionResult Index()
         {
-            var applicationDbContext =  _context.Vehicles
+            var applicationDbContext = _context.Vehicles
                 .Include(v => v.Broker)
                 .Include(v => v.Customer)
                 .Include(v => v.Salesman)
+                .Where(v => v.CustomerId == null)
                 .Take(5);
             return View( applicationDbContext.ToList());
         }
